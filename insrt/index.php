@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	include 'init.php';
 	include 'db.php';
 ?>
@@ -23,37 +24,7 @@
 			<div class='row'>
 				<div class='col'></div>
 				<div class='col-6'>
-					<table class='table'>
-						<thead>
-							<tr>
-								<th scope='col' class='text-center'>#</th>
-								<th scope='col' class='text-center'>Name</th>
-								<th scope='col' class='text-center'>Availability</th>
-							</tr>
-						</thead>
-						<tbody data-bind="template: { foreach: instructors }">
-							<tr>
-								<th scope='row' class='text-center' data-bind="text: index"></th>
-								<td data-bind="text: name"></td>
-								<td class='text-center'>
-									<a role="button" class="btn btn-success btn-sm" style="width: 7em; min-width: 7em; max-width: 7em;" data-bind="
-										css: {
-											'btn-success': available,
-											'btn-action-join': available,
-											'btn-danger': !available,
-											'disabled': !available,
-										},
-										attr: {
-											href: available ? meetingRoomUrl : 'javascript:void(0);',
-											'data-index': index,
-											target: available ? '_blank' : 'none'
-										},
-										text: available ? 'AVAILABLE' : 'BUSY'
-									"></a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<?php if()
 				</div>
 				<div class='col'></div>
 			</div>
@@ -102,7 +73,7 @@
 			});
 		}
 
-		$(document).ready(() => {
+		/*$(document).ready(() => {
 			var viewModel = new InstructorViewModel();
 			
 			ko.applyBindings(viewModel);
@@ -117,6 +88,6 @@
 				const $elem = $(e.target);
 				toggleUnavailable($elem.attr("data-index"), viewModel);
 			});
-		});
+		});*/
 	</script>
 </html>

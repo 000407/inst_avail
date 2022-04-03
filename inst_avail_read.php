@@ -1,21 +1,45 @@
 <?php
-$row = 1;
-if (($handle = fopen("inst_avail.csv", "r")) !== FALSE) {
+include 'init.php';
+include 'db.php';
+
+$instructor_id = null;
+
+if(isset($_GET['index'])) {
+	$instructor_id = $_GET['index'];
+}
+
+try {
+	$pdo = getDb();
 	$data = [];
 
-	while (($rowData = fgetcsv($handle, 1000, ",")) !== FALSE) {
-		$data[] = [
-			'index' => $rowData[0],
-			'name' => $rowData[1],
-			'available' => $rowData[2] ? true : false,
-			'meetingRoomUrl' => $rowData[3]
-		];
-		$row++;
+	$sql = 'SELECT * FROM instructor_availability i INNER JOIN app_user a ON a.id=i.id';
+
+	$params = [];
+
+	if ($instructor_id) {
+		$sql .= " WHERE i.id=:id";
+		$params["id"] = $instructor_id;
 	}
-	fclose($handle);
+
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute($params);
+
+	while ($row = $stmt->fetch())
+	{
+		$data[] = [
+			'index' => $row['id'],
+			'name' => $row['name'],
+			'available' => $row['available'] ? true : false,
+			'meetingRoomUrl' => $row['meeting_room_url']
+		];
+	}
 
 	echo json_encode($data);
 }
-else {
-	header("HTTP/1.1 404 Configuration file not found!");
+catch(Exception $e) {
+	header("HTTP/1.1 500 Internal Error");
+	echo "<pre>{$e->getMessage()}</pre>";
+	if ($debug) {
+		echo "<pre>{$e->getTraceAsString()}</pre>";
+	}
 }
