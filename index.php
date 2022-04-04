@@ -79,7 +79,7 @@
 		function fetchData(viewModel) {
 			$.ajax({
 				type: 'GET',
-				url: 'inst_avail_read.php',
+				url: '<?=$app_path?>/inst_avail_read.php',
 				success: (data) => {
 					viewModel.instructors(JSON.parse(data));
 				},
@@ -92,7 +92,7 @@
 		function toggleUnavailable(index, viewModel) {
 			$.ajax({
 				type: 'POST',
-				url: `inst_change_avail.php?index=${index}&status=0`,
+				url: `<?=$app_path?>/inst_change_avail.php?index=${index}&status=0`,
 				success: (data) => {
 					console.log(data);
 				},

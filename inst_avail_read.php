@@ -12,12 +12,12 @@ try {
 	$pdo = getDb();
 	$data = [];
 
-	$sql = 'SELECT * FROM instructor_availability i INNER JOIN app_user a ON a.id=i.id';
+	$sql = 'SELECT * FROM instructor_availability';
 
 	$params = [];
 
 	if ($instructor_id) {
-		$sql .= " WHERE i.id=:id";
+		$sql .= " WHERE id=:id";
 		$params["id"] = $instructor_id;
 	}
 
